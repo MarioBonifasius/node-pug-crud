@@ -4,3 +4,47 @@ block content
   .container
     h4 Dashboard
     span Only authenticated users can view this dashboard view.
+  br
+  div
+  .container
+    .row.justify-content-center
+      .col-md-8
+        .card
+          .card-header Input Nama Karyawan
+          .card-body
+            form.form-horizontal(method='post' action='/login')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='name') Nama
+                  div.col-md-9
+                    input#email.form-control(type='name' name='name')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Email
+                  div.col-md-9
+                   input#password.form-control(type='email' name='password')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='password') Foto Wajah 1
+                  div.col-md-9
+                    input(type="file" name="media")
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='password') Foto Wajah 2
+                  div.col-md-9
+                    input(type="file" name="media")
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='password') Foto Wajah 3
+                  div.col-md-9
+                    input(type="file" name="media")
+              .mb-3
+                button.btn.btn-primary(type='submit') Login
+                a(href='/register').ps-2 Register
+  
+              
