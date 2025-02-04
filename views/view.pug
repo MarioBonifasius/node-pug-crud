@@ -1,0 +1,30 @@
+extends layout.pug
+block content
+  .container
+    .row.justify-content-center
+      .col-md-12
+        .card
+          .card-header Data Karyawan
+          .card-body
+          table
+            tr
+              th Nama
+              th ID Karyawan
+              th Email
+              th Divisi
+              th Nomor HP
+              th NIK
+              th Alamat
+              th NPWP
+              th Golongan Darah
+            each val in karyawans
+              tr 
+                td= val.nama
+                td= val.id_karyawan
+                td= val.email
+                td= val.divisi
+                td= val.nomor_hp
+                td= val.nik
+                td= val.alamat
+                td= val.npwp
+                td= val.gdarah

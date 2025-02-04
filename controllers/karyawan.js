@@ -1,3 +1,4 @@
+// const Karyawan = require("../models/Karyawan");
 const karyawanModel = require("../models/Karyawan");
 
 module.exports = {
@@ -12,8 +13,11 @@ module.exports = {
           
     res.redirect('/dashboard');
   },
-  read: (req, res) => {
-    
+  read: async(req, res) => {
+    const karyawans = await karyawanModel.findAll();
+    // console.log(karyawans.every(karyawans => karyawans instanceof karyawanModel)); // true
+    // console.log('All karyawans:', JSON.stringify(karyawans, null, 2));
+    res.render('view', {karyawans});
   },
   update: (req, res) => {
     

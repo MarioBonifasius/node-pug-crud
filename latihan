@@ -1,0 +1,13 @@
+// npx sequelize-cli model:generate --name Karyawan --attributes firstName:string,lastName:string,email:string
+//  npx sequelize-cli  model:generate  --name Karyawan --attributes nama:string, id_karyawan:string, email:string, divisi:string, nomor_hp:string, nik:string, alamat:string, npwp:string, gdarah:string
+
+
+// nama: DataTypes.STRING,
+//     id_karyawan: DataTypes.STRING,
+//     email: DataTypes.STRING,
+//     divisi: DataTypes.STRING,
+//     nomor_hp: DataTypes.INTEGER,
+//     nik: DataTypes.INTEGER,
+//     alamat: DataTypes.STRING,
+//     npwp: DataTypes.STRING,
+//     gdarah: DataTypes.STRING
