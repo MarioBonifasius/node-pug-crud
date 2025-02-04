@@ -1,5 +1,5 @@
 const personModel = require("../models/person");
-const karyawanModel = require("../models/person");
+
 
 module.exports = {
   dashboardView: (req, res) => {

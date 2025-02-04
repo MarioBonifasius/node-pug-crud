@@ -16,6 +16,7 @@ module.exports = {
         if(!name || !email || !password) {
           return res.render('register', { error: 'Please fill all fields' });
         }
+        
       
         if(await User.findOne({where: {email}})) {
           return res.render('register', { error: 'A user account already exists with this email' });

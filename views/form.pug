@@ -1,0 +1,103 @@
+extends layout.pug
+
+  div
+  .container
+    .row.justify-content-center
+      .col-md-8
+        .card
+          .card-header Input Data Diri
+          .card-body
+            form.form-horizontal(method='post' action='/login')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='name') Nama
+                  div.col-md-9
+                    input#name.form-control(type='text' name='name')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Email
+                  div.col-md-9
+                   input#password.form-control(type='email' name='email')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='divisi') Divisi
+                  div.col-md-9
+                   input#password.form-control(type='text' name='password')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') ID Karyawan
+                  div.col-md-9
+                   input#password.form-control(type='email' name='password')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Nomor HP
+                  div.col-md-9
+                   input#password.form-control(type='email' name='text')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Alamat
+                  div.col-md-9
+                   input#password.form-control(type='email' name='text')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') NIK
+                  div.col-md-9
+                   input#password.form-control(type='email' name='text')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Gologan Darah
+                  div.col-md-1
+                    input(type='radio',name='severity',value ='Minor')
+                    print A
+                  div.col-md-1
+                    input(type='radio',name = 'severity')
+                    print B
+                  div.col-md-1
+                    input(type='radio',name = 'severity')
+                    print 0
+                  div.col-md-1
+                    input(type='radio',name = 'severity')
+                    print AB
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') NPWP
+                  div.col-md-9
+                   input#password.form-control(type='email' name='text')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='gambar') Foto Wajah 1
+                  div.col-md-9
+                    input(type="file" name="media")
+        br
+        .card
+          .card-header Input Data Diri
+          .card-body
+            form.form-horizontal(method='post' action='/login')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='name') Nama
+                  div.col-md-9
+                    input#email.form-control(type='name' name='name')
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='email') Email
+                  div.col-md-9
+                   input#password.form-control(type='email' name='password')
+
+        br
+        .mb-3
+          button.btn.btn-primary(type='submit') Input
+  
+              

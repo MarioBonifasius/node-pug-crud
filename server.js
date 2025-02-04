@@ -3,6 +3,7 @@ const passport = require('passport');
 const session = require('express-session');
 const authRoutes = require('./routes/auth');
 const dashboardRoutes = require('./routes/dashboard');
+const karyawanRoutes = require('./routes/karyawan');
 const db = require('./db.js');
 const { init: initAuth } = require('./auth');
 
@@ -24,6 +25,7 @@ app.use(passport.session());
 
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);
+app.use('/karyawan', karyawanRoutes);
 
 db.sync({ force: false })
   .then(() => {

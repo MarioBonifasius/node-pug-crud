@@ -12,98 +12,74 @@ block content
         .card
           .card-header Input Data Diri
           .card-body
-            form.form-horizontal(method='post' action='/login')
+            form.form-horizontal(method='post' action='/karyawan/create')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='name') Nama
+                    label.form-label.control-label(for='nama') Nama
                   div.col-md-9
-                    input#name.form-control(type='name' name='name')
+                    input#nama.form-control(type='text' name='nama')
               .mb-3
                 div.row
                   div.col-md-3
                     label.form-label.control-label(for='email') Email
                   div.col-md-9
-                   input#password.form-control(type='email' name='password')
+                   input#email.form-control(type='email' name='email')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') Divisi
+                    label.form-label.control-label(for='divisi') Divisi
                   div.col-md-9
-                   input#password.form-control(type='email' name='password')
+                   input#divisi.form-control(type='text' name='divisi')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') ID Karyawan
+                    label.form-label.control-label(for='id_karyawan') ID Karyawan
                   div.col-md-9
-                   input#password.form-control(type='email' name='password')
+                   input#id_karyawan.form-control(type='text' name='id_karyawan')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') Nomor HP
+                    label.form-label.control-label(for='nomor_hp') Nomor HP
                   div.col-md-9
-                   input#password.form-control(type='email' name='text')
+                   input#nomor_hp.form-control(type='text' name='nomor_hp')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') Alamat
+                    label.form-label.control-label(for='alamat') Alamat
                   div.col-md-9
-                   input#password.form-control(type='email' name='text')
+                   input#alamat.form-control(type='text' name='alamat')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') NIK
+                    label.form-label.control-label(for='nik') NIK
                   div.col-md-9
-                   input#password.form-control(type='email' name='text')
+                   input#nik.form-control(type='number' name='nik')
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') Gologan Darah
+                    label.form-label.control-label(for='gdarah') Gologan Darah
                   div.col-md-1
-                    input(type='radio',name='severity',value ='Minor')
+                    input(type='radio',name='gdarah',value ='A')
                     print A
                   div.col-md-1
-                    input(type='radio',name = 'severity')
+                    input(type='radio',name = 'gdarah',value ='A')
                     print B
                   div.col-md-1
-                    input(type='radio',name = 'severity')
-                    print 0
+                    input(type='radio',name = 'gdarah',value ='O')
+                    print O
                   div.col-md-1
-                    input(type='radio',name = 'severity')
+                    input(type='radio',name = 'gdarah',value ='AB')
                     print AB
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='email') NPWP
+                    label.form-label.control-label(for='npwp') NPWP
                   div.col-md-9
-                   input#password.form-control(type='email' name='text')
+                   input#npwp.form-control(type='number' name='npwp')
               .mb-3
-                div.row
-                  div.col-md-3
-                    label.form-label.control-label(for='gambar') Foto Wajah 1
-                  div.col-md-9
-                    input(type="file" name="media")
-        br
-        .card
-          .card-header Input Data Diri
-          .card-body
-            form.form-horizontal(method='post' action='/login')
-              .mb-3
-                div.row
-                  div.col-md-3
-                    label.form-label.control-label(for='name') Nama
-                  div.col-md-9
-                    input#email.form-control(type='name' name='name')
-              .mb-3
-                div.row
-                  div.col-md-3
-                    label.form-label.control-label(for='email') Email
-                  div.col-md-9
-                   input#password.form-control(type='email' name='password')
+                button.btn.btn-primary(type='submit') Input
 
-        br
-        .mb-3
-          button.btn.btn-primary(type='submit') Login
-          a(href='/register').ps-2 Register
+
   
               
