@@ -78,6 +78,16 @@ block content
                   div.col-md-9
                    input#npwp.form-control(type='number' name='npwp')
               .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='gdarah') Status
+                  div.col-md-1
+                    input(type='radio',name='gdarah',value ='A')
+                    print A
+                  div.col-md-1
+                    input(type='radio',name = 'gdarah',value ='A')
+                    print B
+              .mb-3
                 button.btn.btn-primary(type='submit') Input
         br
         .mb-2

@@ -16,8 +16,7 @@ module.exports = sequelize.define(
   nik: DataTypes.STRING,
   alamat: DataTypes.STRING,
   npwp: DataTypes.STRING,
-  gdarah: DataTypes.STRING,
-  delete_at: DataTypes.DATE
+  gdarah: DataTypes.STRING
 }
 );
 // 'use strict';

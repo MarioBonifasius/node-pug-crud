@@ -17,6 +17,7 @@ block content
               th Alamat
               th NPWP
               th Golongan Darah
+              th Status
             each val in karyawans
               tr 
                 td= val.nama
@@ -28,3 +29,5 @@ block content
                 td= val.alamat
                 td= val.npwp
                 td= val.gdarah
+                td 
+                  a.btn.btn-primary(href="/karyawan/update/" + val.id) Update
