@@ -9,5 +9,6 @@ router.post('/create', karyawanController.create);
 router.get('/update/:id', karyawanController.update);
 router.post('/update/do', karyawanController.updateDo);
 router.post('/delete/do', karyawanController.deleteDo);
+router.get('/search/do', karyawanController.searchDo);
 
 module.exports = router;
