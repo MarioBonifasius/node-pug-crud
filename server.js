@@ -29,5 +29,7 @@ app.use('/karyawan', karyawanRoutes);
 
 db.sync({ force: false })
   .then(() => {
-    app.listen(PORT, console.log('Server is running on port: ' + PORT));
+    app.listen(PORT, () => {
+      console.log(`Server running at http://localhost:${PORT}`);
   });
+    });
