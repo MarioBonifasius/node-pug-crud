@@ -1,7 +1,8 @@
 // const Karyawan = require("../models/Karyawan");
 const { Sequelize, Op, where } = require("sequelize");
 const karyawanModel = require("../models/Karyawan");
-var fs = require('fs');
+var fs = require('fs').promises;
+const path = require('path');
 
 module.exports = {
   create: async (req, res) => {
@@ -137,11 +138,47 @@ module.exports = {
   apiImage: async (req, res) => {
     // read binary data
     // var bitmap = fs.readFileSync(file);
-  
+
     // // convert binary data to base64 encoded string
     // return new Buffer(bitmap).toString('base64');
 
-    const bitmap = fs.readFileSync('./public/labeled_images/bondan/1.png', { encoding: 'base64' });
-    res.send(bitmap)
+    // const bitmap = fs.readFileSync('./public/labeled_images/bondan/1.png', { encoding: 'base64' });
+    // res.send(bitmap)
+
+    var bitmap
+    var image1 = '../public/labeled_images/'+req.params.folder+'/'+req.params.sequence;
+    // bitmap = fs.readFileSync(image1, { encoding: 'base64' });
+
+    // const data = await fs.readFile(image1);
+    // bitmap = "data:image/png;base64, "+Buffer.from(data, 'binary').toString('base64');
+
+    // res.
+
+
+    // // // var base64Img = require('base64-img');
+    // var base64Img = fs.readFileSync(image1);
+    // // var imageData1 = base64Img.base64Sync(image1);
+    // var base64Data = base64Img.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+    // var bitmap = Buffer.from(base64Data, 'base64');
+    // // var bitmap = "data:image/jpeg;base64,"+Buffer.from(image1, 'base64');
+
+    res.sendFile(path.join(__dirname, image1));
+
+    // res.writeHead(200, {
+    //   'Content-Type': 'image/png',
+    //   'Content-Length': bitmap.length
+    // });
+    // res.end(bitmap);
+
+    // const stream = Buffer.from(bitmap)
+    // res.send();
+    // res.writeHead(200, {
+    //   'Content-Type': 'image/png',
+    //   'Content-Length': stream.length
+    // });
+
+    // console.log(bitmap)
+    // res.end(stream);
+
   },
 }
