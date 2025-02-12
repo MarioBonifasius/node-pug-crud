@@ -1,6 +1,7 @@
 // const Karyawan = require("../models/Karyawan");
-const {Sequelize, Op, where} = require("sequelize");
+const { Sequelize, Op, where } = require("sequelize");
 const karyawanModel = require("../models/Karyawan");
+var fs = require('fs');
 
 module.exports = {
   create: async (req, res) => {
@@ -79,18 +80,68 @@ module.exports = {
       {
         delete_at: dateTime
       },
-      { where: { id: req.body.id }}
-    ) 
+      { where: { id: req.body.id } }
+    )
     // })
     res.redirect('../read')
   },
-  
-  searchDo: async(req,res)=>{
+
+  searchDo: async (req, res) => {
     console.log(req);
     const karyawans = await karyawanModel.findOne(
       { where: { id: req.params.id } }
     )
     console.log(karyawans);
     res.render('datafind', { karyawans })
-  }
+  },
+  apiTest: async (req, res) => {
+    const karyawans = [
+      {
+        nama: "wawan",
+        email: "sarapban"
+      },
+      {
+        nama: "bondan",
+        email: "sarapban"
+      },
+      {
+        nama: "miftah",
+        email: "sarapban"
+      },
+      {
+        nama: "umar",
+        email: "sarapban"
+      }
+    ]
+
+    // const karyawans = {
+    //   nama: "Saripudin",
+    //   email: "sarapbanget@gmail.com",
+    //   phone : [{
+    //     operator: "XL",
+    //     number: "08123456789"
+    //   },
+    //   {
+    //     operator: "Telkomsel",
+    //     number: "08113456789"
+    //   },
+    //   {
+    //     operator: "Indosat",
+    //     number: "08563456789"
+    //   }]
+    // }
+    res.send(karyawans)
+  },
+
+
+  apiImage: async (req, res) => {
+    // read binary data
+    // var bitmap = fs.readFileSync(file);
+  
+    // // convert binary data to base64 encoded string
+    // return new Buffer(bitmap).toString('base64');
+
+    const bitmap = fs.readFileSync('./public/labeled_images/bondan/1.png', { encoding: 'base64' });
+    res.send(bitmap)
+  },
 }
