@@ -14,7 +14,7 @@ module.exports = {
 
 
     await karyawanModel.create({ nama, email, id_karyawan, divisi, nomor_hp, nik, alamat, npwp, gdarah });
-    var folderName = id_karyawan 
+    var folderName = nama 
     await fsp.mkdir('./public/labeled_images/' + folderName, { recursive: true });
 
     var image  = req.files.foto1;
