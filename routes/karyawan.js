@@ -1,6 +1,5 @@
 const express = require('express');
 const karyawanController = require('../controllers/karyawan');
-
 const router = express.Router();
 
 // router.get('/', protectRoute, karyawanController.dashboardView);

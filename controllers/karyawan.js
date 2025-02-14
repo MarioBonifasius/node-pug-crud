@@ -1,32 +1,40 @@
 // const Karyawan = require("../models/Karyawan");
 const { Sequelize, Op, where } = require("sequelize");
 const karyawanModel = require("../models/Karyawan");
-var fs = require('fs').promises;
+var fs = require('fs');
+var fsp = require('fs').promises;
 const path = require('path');
 
 module.exports = {
   create: async (req, res) => {
-    const { nama, id_karyawan, email, divisi, nomor_hp, nik, alamat, npwp, gdarah } = req.body;
+    const { nama, id_karyawan, email, divisi, nomor_hp, nik, alamat, npwp, gdarah,foto1,foto2,foto3 } = req.body;
     if (!nama || !id_karyawan || !divisi || !nomor_hp || !nik || !alamat || !npwp || !gdarah) {
       return res.render('register', { error: 'Please fill all fields' });
     }
+
+
     await karyawanModel.create({ nama, email, id_karyawan, divisi, nomor_hp, nik, alamat, npwp, gdarah });
-    // console.log(req.body.email)
-    // await User.create({name, email, password: bcrypt.hashSync(password, 8)});
+    var folderName = id_karyawan 
+    await fsp.mkdir('./public/labeled_images/' + folderName, { recursive: true });
+
+    var image  = req.files.foto1;
+    console.log(image);
+    var extention = image.mimetype.replace('image/','');
+    image.mv('./public/labeled_images/' + folderName + '/1.' + extention);
+
+    image  = req.files.foto2;
+    console.log(image);
+    extention = image.mimetype.replace('image/','');
+    image.mv('./public/labeled_images/' + folderName + '/2.' + extention);
+
+    var image  = req.files.foto3;
+    console.log(image);
+    extention = image.mimetype.replace('image/','');
+    image.mv('./public/labeled_images/' + folderName + '/3.' + extention);
 
     res.redirect('/dashboard');
   },
   read: async (req, res) => {
-    // const karyawans = await karyawanModel.findAll(
-    //   {
-    //     where : {
-    //       delete_at : {
-    //         [Op.ne]: null
-    //       }
-    //     }
-    //   }
-    // );
-
     const karyawans = await karyawanModel.sequelize.query("select * from karyawans where delete_at is null",
       { type: karyawanModel.sequelize.QueryTypes.SELECT }
     )
@@ -61,7 +69,6 @@ module.exports = {
       },
       { where: { id: req.body.id } }
     )
-    // });
     res.redirect('../read')
 
   },
@@ -96,89 +103,52 @@ module.exports = {
     res.render('datafind', { karyawans })
   },
   apiTest: async (req, res) => {
-    const karyawans = [
-      {
-        nama: "wawan",
-        email: "sarapban"
-      },
-      {
-        nama: "bondan",
-        email: "sarapban"
-      },
-      {
-        nama: "miftah",
-        email: "sarapban"
-      },
-      {
-        nama: "umar",
-        email: "sarapban"
-      }
-    ]
-
-    // const karyawans = {
-    //   nama: "Saripudin",
-    //   email: "sarapbanget@gmail.com",
-    //   phone : [{
-    //     operator: "XL",
-    //     number: "08123456789"
+    const karyawans = await karyawanModel.sequelize.query("select * from karyawans where delete_at is null",
+      { type: karyawanModel.sequelize.QueryTypes.SELECT }
+    )
+    // const karyawans = [
+    //   {
+    //     nama: "wawan",
+    //     email: "sarapban"
     //   },
     //   {
-    //     operator: "Telkomsel",
-    //     number: "08113456789"
+    //     nama: "12",
+    //     email: "sarapban"
     //   },
     //   {
-    //     operator: "Indosat",
-    //     number: "08563456789"
-    //   }]
-    // }
+    //     nama: "bondan",
+    //     email: "sarapban"
+    //   },
+    //   {
+    //     nama: "miftah",
+    //     email: "sarapban"
+    //   },
+    //   {
+    //     nama: "umar",
+    //     email: "sarapban"
+    //   }
+    // ]
     res.send(karyawans)
   },
 
 
   apiImage: async (req, res) => {
-    // read binary data
-    // var bitmap = fs.readFileSync(file);
+    var imagePath = '../public/labeled_images/' + req.params.folder + '/' + req.params.sequence;
+    var imageFile = path.join(__dirname, imagePath)
+    console.log(imageFile);
 
-    // // convert binary data to base64 encoded string
-    // return new Buffer(bitmap).toString('base64');
-
-    // const bitmap = fs.readFileSync('./public/labeled_images/bondan/1.png', { encoding: 'base64' });
-    // res.send(bitmap)
-
-    var bitmap
-    var image1 = '../public/labeled_images/'+req.params.folder+'/'+req.params.sequence;
-    // bitmap = fs.readFileSync(image1, { encoding: 'base64' });
-
-    // const data = await fs.readFile(image1);
-    // bitmap = "data:image/png;base64, "+Buffer.from(data, 'binary').toString('base64');
-
-    // res.
-
-
-    // // // var base64Img = require('base64-img');
-    // var base64Img = fs.readFileSync(image1);
-    // // var imageData1 = base64Img.base64Sync(image1);
-    // var base64Data = base64Img.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
-    // var bitmap = Buffer.from(base64Data, 'base64');
-    // // var bitmap = "data:image/jpeg;base64,"+Buffer.from(image1, 'base64');
-
-    res.sendFile(path.join(__dirname, image1));
-
-    // res.writeHead(200, {
-    //   'Content-Type': 'image/png',
-    //   'Content-Length': bitmap.length
-    // });
-    // res.end(bitmap);
-
-    // const stream = Buffer.from(bitmap)
-    // res.send();
-    // res.writeHead(200, {
-    //   'Content-Type': 'image/png',
-    //   'Content-Length': stream.length
-    // });
-
-    // console.log(bitmap)
-    // res.end(stream);
-
+    var extention = '.png';
+    if (!fs.existsSync(imageFile + extention)) {
+      console.log('file not found :: ' + imageFile + extention);
+      extention = '.jpg';
+      if (!fs.existsSync(imageFile + extention)) {
+        console.log('file not found :: ' + imageFile + extention);
+        extention = '.jpeg';
+        if (!fs.existsSync(imageFile + extention)) {
+          console.log('file not found :: ' + imageFile + extention);
+        };
+      }
+    }
+    res.sendFile(imageFile + extention);
   },
 }

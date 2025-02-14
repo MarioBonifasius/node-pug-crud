@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fileUpload = require('express-fileupload');
 const passport = require('passport');
 const session = require('express-session');
 const authRoutes = require('./routes/auth');
@@ -35,6 +36,7 @@ app.use(session({
 app.use(cors(corsOptions))
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(fileUpload());
 
 app.use('/', authRoutes);
 app.use('/', dashboardRoutes);

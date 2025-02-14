@@ -13,7 +13,7 @@ block content
         .card
           .card-header Input Data Diri
           .card-body
-            form.form-horizontal(method='post' action='/karyawan/create')
+            form.form-horizontal(method='post' action='/karyawan/create' enctype='multipart/form-data')
               .mb-3
                 div.row
                   div.col-md-3
@@ -81,13 +81,22 @@ block content
               .mb-3
                 div.row
                   div.col-md-3
-                    label.form-label.control-label(for='gdarah') Status
+                    label.form-label.control-label(for='gdarah') Input Depan
                   div.col-md-1
-                    input(type='radio',name='gdarah',value ='A')
-                    print A
+                    input(type="file" name="foto1")
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='gdarah') Input Samping Kanan
                   div.col-md-1
-                    input(type='radio',name = 'gdarah',value ='A')
-                    print B
+                    input(type="file" name="foto2")
+              .mb-3
+                div.row
+                  div.col-md-3
+                    label.form-label.control-label(for='gdarah') Input Samping Kiri
+                  div.col-md-1
+                    input(type="file" name="foto3")
+
               .mb-3
                 button.btn.btn-primary(type='submit') Input
         br
