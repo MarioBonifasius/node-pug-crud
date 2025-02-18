@@ -23,6 +23,7 @@ const app = express();
 const PORT = 8080;
 
 app.use(express.urlencoded({extended: false}));
+app.use(express.json()); 
 app.set('view engine', 'pug');
 app.use("/public", express.static(path.join(__dirname, 'public')));
 

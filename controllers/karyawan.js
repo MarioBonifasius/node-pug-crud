@@ -1,9 +1,12 @@
 // const Karyawan = require("../models/Karyawan");
 const { Sequelize, Op, where } = require("sequelize");
 const karyawanModel = require("../models/Karyawan");
+const karyawanLog = require("../models/log");
 var fs = require('fs');
 var fsp = require('fs').promises;
 const path = require('path');
+const { type } = require("os");
+const mime = require('mime'); // npm install mime
 
 module.exports = {
   create: async (req, res) => {
@@ -90,7 +93,6 @@ module.exports = {
       },
       { where: { id: req.body.id } }
     )
-    // })
     res.redirect('../read')
   },
 
@@ -106,28 +108,6 @@ module.exports = {
     const karyawans = await karyawanModel.sequelize.query("select * from karyawans where delete_at is null",
       { type: karyawanModel.sequelize.QueryTypes.SELECT }
     )
-    // const karyawans = [
-    //   {
-    //     nama: "wawan",
-    //     email: "sarapban"
-    //   },
-    //   {
-    //     nama: "12",
-    //     email: "sarapban"
-    //   },
-    //   {
-    //     nama: "bondan",
-    //     email: "sarapban"
-    //   },
-    //   {
-    //     nama: "miftah",
-    //     email: "sarapban"
-    //   },
-    //   {
-    //     nama: "umar",
-    //     email: "sarapban"
-    //   }
-    // ]
     res.send(karyawans)
   },
 
@@ -151,4 +131,58 @@ module.exports = {
     }
     res.sendFile(imageFile + extention);
   },
+
+  apiGetNewImage: async (req, res) => {
+    var personName = 'bondan';
+    var imagenum = "1";
+
+    var imagePath = '../public/labeled_images/'+ personName + '/' + imagenum;
+    var imageFile = path.join(__dirname, imagePath)
+    console.log(imageFile);
+
+    var extention = '.png';
+    if (!fs.existsSync(imageFile + extention)) {
+      console.log('file not found :: ' + imageFile + extention);
+      extention = '.jpg';
+      if (!fs.existsSync(imageFile + extention)) {
+        console.log('file not found :: ' + imageFile + extention);
+        extention = '.jpeg';
+        if (!fs.existsSync(imageFile + extention)) {
+          console.log('file not found :: ' + imageFile + extention);
+        };
+      }
+    }
+
+    var base64File;
+    const filemime = extention; //mime.getType(imageFile + extention);
+    const filepath = path.resolve(imageFile + extention);
+
+    // read binary data
+    var bitmap = fs.readFileSync(filepath);
+    // convert binary data to base64 encoded string
+    base64File =  new Buffer(bitmap).toString('base64');    
+    console.log(base64File);
+
+    var response = {
+      type: extention,
+      // image: `data:${filemime};base64,${base64File}`
+      name: personName,
+      sequence: imagenum,
+      image: base64File
+    }
+    // const originalString = 'Hello, this is a string to encode!';
+    // const base64File = Buffer.from(originalString).toString('base64');
+    
+    // console.log('Original String:', originalString);
+    // console.log('Base64 Encoded:', base64String);
+
+
+    res.send(response);
+  },
+
+  apiAbsentLog : async (req, res) => {
+    console.log(req.body);
+    await karyawanLog.create({ nama: req.body.name});
+    res.send("sukses yo")
+  }
 }
