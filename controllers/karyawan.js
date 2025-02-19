@@ -2,37 +2,39 @@
 const { Sequelize, Op, where } = require("sequelize");
 const karyawanModel = require("../models/Karyawan");
 const karyawanLog = require("../models/log");
+const karyawanLogOut = require("../models/logout");
 var fs = require('fs');
 var fsp = require('fs').promises;
 const path = require('path');
 const { type } = require("os");
 const mime = require('mime'); // npm install mime
+const { count } = require("console");
 
 module.exports = {
   create: async (req, res) => {
-    const { nama, id_karyawan, email, divisi, nomor_hp, nik, alamat, npwp, gdarah,foto1,foto2,foto3 } = req.body;
+    const { nama, id_karyawan, email, divisi, nomor_hp, nik, alamat, npwp, gdarah, foto1, foto2, foto3 } = req.body;
     if (!nama || !id_karyawan || !divisi || !nomor_hp || !nik || !alamat || !npwp || !gdarah) {
       return res.render('register', { error: 'Please fill all fields' });
     }
 
 
     await karyawanModel.create({ nama, email, id_karyawan, divisi, nomor_hp, nik, alamat, npwp, gdarah });
-    var folderName = nama 
+    var folderName = nama
     await fsp.mkdir('./public/labeled_images/' + folderName, { recursive: true });
 
-    var image  = req.files.foto1;
+    var image = req.files.foto1;
     console.log(image);
-    var extention = image.mimetype.replace('image/','');
+    var extention = image.mimetype.replace('image/', '');
     image.mv('./public/labeled_images/' + folderName + '/1.' + extention);
 
-    image  = req.files.foto2;
+    image = req.files.foto2;
     console.log(image);
-    extention = image.mimetype.replace('image/','');
+    extention = image.mimetype.replace('image/', '');
     image.mv('./public/labeled_images/' + folderName + '/2.' + extention);
 
-    var image  = req.files.foto3;
+    var image = req.files.foto3;
     console.log(image);
-    extention = image.mimetype.replace('image/','');
+    extention = image.mimetype.replace('image/', '');
     image.mv('./public/labeled_images/' + folderName + '/3.' + extention);
 
     res.redirect('/dashboard');
@@ -104,6 +106,7 @@ module.exports = {
     console.log(karyawans);
     res.render('datafind', { karyawans })
   },
+
   apiTest: async (req, res) => {
     const karyawans = await karyawanModel.sequelize.query("select * from karyawans where delete_at is null",
       { type: karyawanModel.sequelize.QueryTypes.SELECT }
@@ -136,7 +139,7 @@ module.exports = {
     var personName = 'bondan';
     var imagenum = "1";
 
-    var imagePath = '../public/labeled_images/'+ personName + '/' + imagenum;
+    var imagePath = '../public/labeled_images/' + personName + '/' + imagenum;
     var imageFile = path.join(__dirname, imagePath)
     console.log(imageFile);
 
@@ -159,30 +162,64 @@ module.exports = {
 
     // read binary data
     var bitmap = fs.readFileSync(filepath);
-    // convert binary data to base64 encoded string
-    base64File =  new Buffer(bitmap).toString('base64');    
+    base64File = new Buffer(bitmap).toString('base64');
     console.log(base64File);
 
     var response = {
       type: extention,
-      // image: `data:${filemime};base64,${base64File}`
       name: personName,
       sequence: imagenum,
       image: base64File
     }
-    // const originalString = 'Hello, this is a string to encode!';
-    // const base64File = Buffer.from(originalString).toString('base64');
-    
-    // console.log('Original String:', originalString);
-    // console.log('Base64 Encoded:', base64String);
-
-
     res.send(response);
   },
 
-  apiAbsentLog : async (req, res) => {
+  apiAbsentLog: async (req, res) => {
     console.log(req.body);
-    await karyawanLog.create({ nama: req.body.name});
+    await karyawanLog.create({ nama: req.body.name });
     res.send("sukses yo")
-  }
+  },
+
+  apiAbsentLogOut: async (req, res) => {
+    console.log(req.body);
+    await karyawanLogOut.create({ nama: req.body.name });
+    res.send("sukses yo")
+  },
+
+  getNewData: async (req, res) => {
+    const karyawans = await karyawanModel.sequelize.query("select * from karyawans where createdAt > '" + req.params.lastreq + "' order by createdAt asc limit 1",
+      { type: karyawanModel.sequelize.QueryTypes.SELECT }
+    )
+    try {
+      var karyawan = karyawans[0];
+      b64counter = 0;
+      var directory = './public/labeled_images/' + karyawan.nama;
+      console.log(directory);
+      karyawan.images = [];
+
+      const files = fs.readdirSync(directory);
+
+      files.forEach(async (file) => {
+        var bitmap = fs.readFileSync(directory + '/' + file);
+        base64File = new Buffer(bitmap).toString('base64');
+        imageObject = {
+          name: file,
+          image: base64File
+        }
+
+        console.log(file)
+        karyawan.images.push(imageObject);
+        karyawan.rc = "0000";
+      });
+      console.log("jalan")
+
+      res.send(karyawan);
+
+    }
+    catch (error) {
+      var error1 = { rc: "0005" }
+      res.send(error1)
+    }
+
+  },
 }

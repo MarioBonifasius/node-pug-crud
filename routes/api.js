@@ -15,5 +15,8 @@ router.get('/list', karyawanController.apiTest);
 router.get('/image/new', karyawanController.apiGetNewImage);
 router.get('/image/:folder/:sequence' , karyawanController.apiImage);
 router.post('/absen' , karyawanController.apiAbsentLog);
+router.post('/absen-keluar' , karyawanController.apiAbsentLogOut);
+router.get('/get/new/:lastreq' , karyawanController.getNewData);
+// router.post('/absen/keluar' , karyawanController.apiAbsentLogOut);
 
 module.exports = router;
