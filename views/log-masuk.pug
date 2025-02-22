@@ -1,0 +1,21 @@
+extends layout.pug
+block content
+  .container
+    .row.justify-content-center
+      .col-md-12
+        .card
+          .card-header Data Masuk Karyawan
+          .card-body
+          form(method='get' action='/api/karyawan/absen-masuk/data') 
+          table
+            tr
+              th Nama
+              th Jam Masuk
+              th Jam Keluar
+            each val in LogIn
+              tr 
+                td= val.nama
+                td= val.createdAt
+                td= val.logout_time
+                td
+                  a.btn.btn-primary(href="/karyawan/update/" + val.id) Update
