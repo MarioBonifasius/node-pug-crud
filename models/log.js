@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../db');
+const logout = require('./logout');
 
 module.exports = sequelize.define( 'Log',{
   id: {
@@ -9,6 +10,8 @@ module.exports = sequelize.define( 'Log',{
   },
   nama: DataTypes.STRING,
   id_karyawan: DataTypes.STRING,
+  tanggal: DataTypes.DATEONLY,
+  logout_time: DataTypes.DATE,
 }
 );
 

@@ -39,15 +39,15 @@ module.exports = {
 
     res.redirect('/dashboard');
   },
+
   read: async (req, res) => {
     const karyawans = await karyawanModel.sequelize.query("select * from karyawans where delete_at is null",
       { type: karyawanModel.sequelize.QueryTypes.SELECT }
     )
 
-    console.log(karyawans)
-
     res.render('view', { karyawans });
   },
+
   update: async (req, res) => {
     console.log(req);
     const karyawans = await karyawanModel.findOne(
@@ -176,14 +176,65 @@ module.exports = {
 
   apiAbsentLog: async (req, res) => {
     console.log(req.body);
-    await karyawanLog.create({ nama: req.body.name });
-    res.send("sukses yo")
+    const dt = new Date();
+    var dateTime = ""
+    dateTime += dt.getFullYear() + "-"
+    dateTime += dt.getMonth().toString().padStart(2, "0") + "-"
+    dateTime += dt.getDate().toString().padStart(2, "0")
+    try {
+      await karyawanLog.create({ nama: req.body.name, tanggal: dateTime });
+      res.send("absen masuk berhasil")
+    } catch (error) {
+      res.send("sudah absen masuk")
+    }
   },
 
+
   apiAbsentLogOut: async (req, res) => {
+    // const log = await karyawanLog.sequelize.query("select * from logs where nama ='"+req.body.nama+"'and logout_time is null and date(createdAt) = date(now()) order by date(createdAt) desc limit 1",
+    //   { type: karyawanLog.sequelize.QueryTypes.SELECT }
+    // )
+    // res.send(log)
+
     console.log(req.body);
-    await karyawanLogOut.create({ nama: req.body.name });
-    res.send("sukses yo")
+
+    // inisialisasi tanggal hari ini
+    const dt = new Date();
+    var dateTime = ""
+    dateTime += dt.getFullYear() + "-"
+    dateTime += dt.getMonth().toString().padStart(2, "0") + "-"
+    dateTime += dt.getDate().toString().padStart(2, "0")
+
+    var responseToClient = "";
+
+    try {
+      // cari data absen masuk yang jam logout nya null
+      result = await karyawanLog.sequelize.query("select * from logs where nama ='" + req.body.name + "'and logout_time is null and date(createdAt) = date(now())",
+        { type: karyawanLog.sequelize.QueryTypes.SELECT }
+      )
+
+      // jika tidak ada data absen masuk yang jam logout nya null
+      if (result.length == 0) {
+        // kirim response bahwa sudah absen keluar 
+        responseToClient = "sudah absen keluar / belum absen masuk";
+      } else {
+
+        // jika ada data absen masuk yang jam logout nya null
+        // maka update jam logout nya dengan jam saat ini
+        result = await karyawanLog.sequelize.query("update logs set logout_time = now() where nama ='" + req.body.name + "'and logout_time is null and date(createdAt) = date(now())",
+          { type: karyawanLog.sequelize.QueryTypes.UPDATE }
+        )
+        // kirim response bahwa absen keluar berhasil
+        responseToClient = "absen keluar berhasil";
+
+      }
+    } catch (error) {
+      // jika proses dalam blok try diatas gagal, maka kirim response bahwa absen keluar gagal
+      responseToClient = "absen keluar gagal";
+    }
+
+    // kirim response ke client
+    res.send(responseToClient);
   },
 
   getNewData: async (req, res) => {
@@ -211,7 +262,6 @@ module.exports = {
         karyawan.images.push(imageObject);
         karyawan.rc = "0000";
       });
-      console.log("jalan")
 
       res.send(karyawan);
 
@@ -221,5 +271,21 @@ module.exports = {
       res.send(error1)
     }
 
+  },
+
+  readLogIn: async (req, res) => {
+    const LogIn = await karyawanLog.sequelize.query("select nama,DATE_FORMAT(logout_time, '%a, %d %b %Y, %H:%i') as logout_time, DATE_FORMAT(createdAt, '%a, %d %b %Y, %H:%i') as createdAt from logs ",
+      { type: karyawanLog.sequelize.QueryTypes.SELECT }
+    )
+
+    res.render('log-masuk', { LogIn });
+  },
+
+  readLogOut: async (req, res) => {
+    const LogOut = await karyawanLogOut.sequelize.query("select DATE_FORMAT(createdAt, '%a, %d %b %Y, %H:%i') as createdAt from logouts ",
+      { type: karyawanLogOut.sequelize.QueryTypes.SELECT }
+    )
+
+    res.render('view', { LogOut });
   },
 }
